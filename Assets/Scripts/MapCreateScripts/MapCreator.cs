@@ -39,10 +39,11 @@ public class MapCreator : MonoBehaviour
     {
         //this.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);//맵 생성기가 언제나 각 맵의 중앙에 위치하도록 해줌
         //this.gameObject.transform.position = onPlayerMap.transform.position;
-        Debug.Log(center);
     }
-    void PlayerMap()
+    void PlayerMoved(Collider coll)
     {
+        Debug.Log("moved");
+        onPlayerMap = coll.transform;
         if(onPlayerMap == currentMapObject[1, 1])//플레이어가 중앙에 있는지 확인
             center = true;
         if(onPlayerMap != currentMapObject[1, 1])//중앙이 아니라면 어느곳으로 이동했는지 확인
@@ -100,13 +101,13 @@ public class MapCreator : MonoBehaviour
         if(Physics.Raycast(MapInstance.transform.position + new Vector3(0.3f * z - 0.3f, 1.0f, 0.3f * x - 0.3f), Vector3.down, out hit, 1.0f))
         {
             mapArray[z, x] = true;
-            for(int a = 0; a < 3; a++)
-            {
-                for(int b = 0; b < 3; b++)
-                {
-                    Debug.Log(mapArray[a, b]);
-                }
-            }
+            // for(int a = 0; a < 3; a++)
+            // {
+            //     for(int b = 0; b < 3; b++)
+            //     {
+            //         Debug.Log(mapArray[a, b]);
+            //     }
+            // }
         }
         Debug.DrawRay(MapInstance.transform.position + new Vector3(0.3f * z - 0.3f, 1.0f, 0.3f * x - 0.3f), Vector3.down * 1.0f, Color.red);
         //int z = index / 3;  //index를 축으로 변환해줌
@@ -138,8 +139,9 @@ public class MapCreator : MonoBehaviour
         mapArray[z, x] = true;  //만들었으니 배열에 표시해줌
     }
 
-    void OnTriggerEnter(Collider other) 
+    void OncollisionEnter(Collider other) 
     {
-        PlayerMap();
+        Debug.Log("asdf");
+        PlayerMoved(other);
     }
 }
