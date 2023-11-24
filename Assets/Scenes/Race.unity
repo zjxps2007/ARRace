@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 105993082}
   - component: {fileID: 105993081}
   - component: {fileID: 105993080}
+  - component: {fileID: 105993085}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -212,12 +213,12 @@ MonoBehaviour:
       m_Name: Position
       m_Type: 0
       m_ExpectedControlType: Vector3
-      m_Id: 
+      m_Id: 8dca88da-20d1-4134-a79f-db987a06e3f4
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings:
       - m_Name: 
-        m_Id: 
+        m_Id: 78a9f894-0fca-4e72-8046-3bde67ad541a
         m_Path: <XRHMD>/centerEyePosition
         m_Interactions: 
         m_Processors: 
@@ -240,12 +241,12 @@ MonoBehaviour:
       m_Name: Rotation
       m_Type: 0
       m_ExpectedControlType: Quaternion
-      m_Id: 
+      m_Id: 3f4d5292-98e0-422f-a135-83270578f638
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings:
       - m_Name: 
-        m_Id: 
+        m_Id: 427095f3-c3cb-4732-82b9-20ff23934522
         m_Path: <XRHMD>/centerEyeRotation
         m_Interactions: 
         m_Processors: 
@@ -268,7 +269,7 @@ MonoBehaviour:
       m_Name: Tracking State
       m_Type: 0
       m_ExpectedControlType: Integer
-      m_Id: 
+      m_Id: 8da578dd-488d-4358-b345-fe12177602ca
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -322,7 +323,7 @@ MonoBehaviour:
   m_FocusMode: -1
   m_LightEstimationMode: -1
   m_AutoFocus: 1
-  m_LightEstimation: 0
+  m_LightEstimation: -1
   m_FacingDirection: 1
   m_RenderMode: 0
 --- !u!81 &105993083
@@ -384,6 +385,50 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &105993085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105993078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &1470380809
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +440,7 @@ GameObject:
   - component: {fileID: 1470380812}
   - component: {fileID: 1470380811}
   - component: {fileID: 1470380810}
+  - component: {fileID: 1470380813}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -502,6 +548,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1470380813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470380809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce97e722457249f1806ae18582b1b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CameraManager: {fileID: 105993082}
 --- !u!1 &1822010013
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,6 +572,8 @@ GameObject:
   - component: {fileID: 1822010015}
   - component: {fileID: 1822010014}
   - component: {fileID: 1822010016}
+  - component: {fileID: 1822010017}
+  - component: {fileID: 1822010018}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -565,9 +626,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlanePrefab: {fileID: 1568414836858200, guid: b700f1f07518346d8baeec97c175b687,
+  m_PlanePrefab: {fileID: 5523706534649168535, guid: dc9aaa778747e41529457f94f7bb6180,
     type: 3}
-  m_DetectionMode: 1
+  m_DetectionMode: -1
+--- !u!114 &1822010017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822010013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastPrefab: {fileID: 0}
+--- !u!114 &1822010018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822010013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69408012988094d6fbd71be3595094a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameObjectToInstantiate: {fileID: 1934569588295450, guid: 68773fe055df24605ad0ebec2e9d60b5,
+    type: 3}
 --- !u!1 &2075352993
 GameObject:
   m_ObjectHideFlags: 0
