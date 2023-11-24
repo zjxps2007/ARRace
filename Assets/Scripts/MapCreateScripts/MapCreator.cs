@@ -39,7 +39,6 @@ public class MapCreator : MonoBehaviour
     {
         //this.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);//맵 생성기가 언제나 각 맵의 중앙에 위치하도록 해줌
         //this.gameObject.transform.position = onPlayerMap.transform.position;
-        PlayerMap();
         Debug.Log(center);
     }
     void PlayerMap()
@@ -97,26 +96,19 @@ public class MapCreator : MonoBehaviour
         Transform MapInstance;
         MapInstance = Instantiate(map);
         MapInstance.transform.position = onPlayerMap.transform.position;//플레이어가 위치한 땅으로 인스턴스의 위치 초기화
-        for(int zz = 0; zz < 3; zz++)
+        mapArray[z, x] = false;
+        if(Physics.Raycast(MapInstance.transform.position + new Vector3(0.3f * z - 0.3f, 1.0f, 0.3f * x - 0.3f), Vector3.down, out hit, 1.0f))
         {
-            for(int xx = 0; xx < 3; xx++)
+            mapArray[z, x] = true;
+            for(int a = 0; a < 3; a++)
             {
-                mapArray[zz, xx] = false;
-                if(Physics.Raycast(MapInstance.transform.position + new Vector3(0.3f * zz - 0.3f, 0.5f, 0.3f * xx - 0.3f), Vector3.down, out hit, 1.0f))
+                for(int b = 0; b < 3; b++)
                 {
-                    Debug.Log("asdf");
-                    mapArray[zz, xx] = true;
-                    for(int a = 0; a < 3; a++)
-                    {
-                        for(int b = 0; b < 3; b++)
-                        {
-                            Debug.Log(mapArray[a, b]);
-                        }
-                    }
+                    Debug.Log(mapArray[a, b]);
                 }
-                Debug.DrawRay(MapInstance.transform.position + new Vector3(0.3f * zz - 0.3f, 0.5f, 0.3f * xx - 0.3f), Vector3.down * 1.0f, Color.red);
             }
         }
+        Debug.DrawRay(MapInstance.transform.position + new Vector3(0.3f * z - 0.3f, 1.0f, 0.3f * x - 0.3f), Vector3.down * 1.0f, Color.red);
         //int z = index / 3;  //index를 축으로 변환해줌
         //int x = index % 3;
         switch (z)  //i(z)의 값에 따라 인스턴스의 위치 조절 
@@ -144,5 +136,10 @@ public class MapCreator : MonoBehaviour
                 break;
         }
         mapArray[z, x] = true;  //만들었으니 배열에 표시해줌
+    }
+
+    void OnTriggerEnter(Collider other) 
+    {
+        PlayerMap();
     }
 }
