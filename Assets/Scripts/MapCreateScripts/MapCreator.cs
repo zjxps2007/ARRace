@@ -11,13 +11,13 @@ public class MapCreator : MonoBehaviour
     RaycastHit hit;    //같은 곳에 맵을 성성하지 않도록 땅이 있는지 확인하는 체커
     public static bool[,] mapArray = new bool[3, 3];//땅을 만들때 true를 넣어줌
     public static Transform[,] currentMapObject = new Transform[3, 3]; //플레이어가 어디로 이동했는지 알기 위해 각 땅의 정보를 담을 배열
-    public Transform[] maps = new Transform[2]; //맵
+    public Transform map; //맵
 
     // Start is called before the first frame update
     void Start()//플레이어가 오브젝트와 겹치는 문제가 있어 시작할때 플레이어의 자리에 땅을 하나 만들어줌
     {
         Transform MapInstance;
-        MapInstance = Instantiate(maps[0]);
+        MapInstance = Instantiate(map);
         onPlayerMap = MapInstance;
         mapArray[1, 1] = true;
         center = true;
@@ -37,9 +37,10 @@ public class MapCreator : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()//그냥 업데이트를 사용하면 맵이 중복되어 생기는 현상이 있어 fixedupdate사용
     {
-        this.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);//맵 생성기가 언제나 각 맵의 중앙에 위치하도록 해줌
-        this.gameObject.transform.position = onPlayerMap.transform.position;
+        //this.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);//맵 생성기가 언제나 각 맵의 중앙에 위치하도록 해줌
+        //this.gameObject.transform.position = onPlayerMap.transform.position;
         PlayerMap();
+        Debug.Log(center);
     }
     void PlayerMap()
     {
@@ -94,21 +95,26 @@ public class MapCreator : MonoBehaviour
     void MapCreate(int z, int x)
     {
         Transform MapInstance;
-        MapInstance = Instantiate(maps[Random.Range(0, 2)]);
+        MapInstance = Instantiate(map);
         MapInstance.transform.position = onPlayerMap.transform.position;//플레이어가 위치한 땅으로 인스턴스의 위치 초기화
         for(int zz = 0; zz < 3; zz++)
         {
             for(int xx = 0; xx < 3; xx++)
             {
-                hit = null;
-                if(Physics.Raycast(MapInstance.transform))
-                Debug.DrawRay(checkerRay.origin, checkerRay.direction, Color.red);
-
-
-                if(checkerRay != null)
+                mapArray[zz, xx] = false;
+                if(Physics.Raycast(MapInstance.transform.position + new Vector3(0.3f * zz - 0.3f, 0.5f, 0.3f * xx - 0.3f), Vector3.down, out hit, 1.0f))
                 {
-                    mapArray[zz, xx] = false;
+                    Debug.Log("asdf");
+                    mapArray[zz, xx] = true;
+                    for(int a = 0; a < 3; a++)
+                    {
+                        for(int b = 0; b < 3; b++)
+                        {
+                            Debug.Log(mapArray[a, b]);
+                        }
+                    }
                 }
+                Debug.DrawRay(MapInstance.transform.position + new Vector3(0.3f * zz - 0.3f, 0.5f, 0.3f * xx - 0.3f), Vector3.down * 1.0f, Color.red);
             }
         }
         //int z = index / 3;  //index를 축으로 변환해줌
@@ -116,25 +122,25 @@ public class MapCreator : MonoBehaviour
         switch (z)  //i(z)의 값에 따라 인스턴스의 위치 조절 
         {
             case 0:
-                MapInstance.transform.position += new Vector3(0.0f, 0.0f, 40.0f);
+                MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.3f);
                 break;
             case 1:
                 MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.0f);
                 break;
             case 2:
-                MapInstance.transform.position += new Vector3(0.0f, 0.0f, -40.0f);
+                MapInstance.transform.position += new Vector3(0.0f, 0.0f, -0.3f);
                 break;
         }
         switch (x)  //j(x)의 값에 따라 인스턴스의 위치 조절 
         {
             case 0:
-                MapInstance.transform.position += new Vector3(-40.0f, 0.0f, 0.0f);
+                MapInstance.transform.position += new Vector3(-0.3f, 0.0f, 0.0f);
                 break;
             case 1:
                 MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.0f);
                 break;
             case 2:
-                MapInstance.transform.position += new Vector3(40.0f, 0.0f, 0.0f);
+                MapInstance.transform.position += new Vector3(0.3f, 0.0f, 0.0f);
                 break;
         }
         mapArray[z, x] = true;  //만들었으니 배열에 표시해줌
