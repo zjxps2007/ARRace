@@ -6,13 +6,12 @@ using UnityEngine.XR.ARSubsystems;
 
 public class CarManager : MonoBehaviour
 {
-    public GameObject GameObjectToInstantiate;// 터치하여 생성할 오브젝트
+    public GameObject GameObjectToInstantiate; // 터치하여 생성할 오브젝트
 
     private ARRaycastManager arRaycastManager; // RaycastManager 참조
     private ARPlaneManager arPlaneManager; // ARPlaneManager 참조
     private GameObject spawnedObject; // 생성한 게임 오브젝트 저장할 변수 선언
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
-
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +23,15 @@ public class CarManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!TryGetTouchPostion(out Vector2 touchPositon))
+        hits.Clear(); // Clear the list before each use
+
+        if (!TryGetTouchPosition(out Vector2 touchPosition))
         {
             return; // 사용자의 터치가 발생하지 않은 경우에는 업데이트 함수 실행을 더 이상 진행하지 않음 
         }
 
         // Raycast를 실행하며, 그 결과값을 hits 변수에 담아준다. 
-        if (arRaycastManager.Raycast(touchPositon, hits, TrackableType.PlaneWithinPolygon))
+        if (arRaycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
         {
             var hitPose = hits[0].pose; // ray에 맞은 결과의 첫번째 정보를 변수로 선언
 
@@ -54,15 +55,15 @@ public class CarManager : MonoBehaviour
         }
     }
 
-    private bool TryGetTouchPostion(out Vector2 touchPositon)
+    private bool TryGetTouchPosition(out Vector2 touchPosition)
     {
         if (Input.touchCount > 0)
         {
-            touchPositon = Input.GetTouch(0).position;
+            touchPosition = Input.GetTouch(0).position;
             return true;
         }
 
-        touchPositon = default;
+        touchPosition = default;
         return false;
     }
 }
