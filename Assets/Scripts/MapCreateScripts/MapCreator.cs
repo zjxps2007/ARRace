@@ -12,6 +12,7 @@ public class MapCreator : MonoBehaviour
     public static Transform[,] currentMapObject = new Transform[3, 3]; //플레이어가 어디로 이동했는지 알기 위해 각 땅의 정보를 담을 배열
     public Transform map; //맵
     Transform hitTemp;
+    int mask;
 
     // Start is called before the first frame update
     void Start()//플레이어가 오브젝트와 겹치는 문제가 있어 시작할때 플레이어의 자리에 땅을 하나 만들어줌
@@ -22,6 +23,7 @@ public class MapCreator : MonoBehaviour
         mapArray[1, 1] = true;
         center = true;
         MapCreate();
+        mask = 1 << 6;
         currentMapObject[1, 1] = onPlayerMap; // 플레이어의 위치는 오브젝트 배열상에서 언제나 [1,1]에 위치
         hitTemp = onPlayerMap.transform;
     }
@@ -33,8 +35,8 @@ public class MapCreator : MonoBehaviour
         //this.gameObject.transform.position = onPlayerMap.transform.position;
         //PlayerMoved();
         RaycastHit hit;
-        Debug.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.2f), Vector3.down * 1.0f, Color.red);
-        if(Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.2f), Vector3.down, out hit, 1.0f))
+        Debug.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down * 1.0f, Color.red);
+        if(Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down, out hit, 1.0f, mask))
         {
             if(hitTemp != hit.transform)
             {
@@ -44,48 +46,6 @@ public class MapCreator : MonoBehaviour
         }
         hitTemp = hit.transform;
     }
-    void PlayerMoved()
-    {
-        if(onPlayerMap == currentMapObject[1, 1])//플레이어가 중앙에 있는지 확인
-            center = true;
-        if(onPlayerMap != currentMapObject[1, 1])//중앙이 아니라면 어느곳으로 이동했는지 확인
-        {
-            center = false;
-            for(int i = 0; i < 3; i++)
-            {
-                for(int j = 0; j < 3; j++)
-                {
-                    if(onPlayerMap == currentMapObject[i, j])//플레이어의 위치를 확인
-                    {
-                        if(1 - i == 1)  //만약 i(z)축으로 이동했다면 createdMap배열 윗줄을 모두 false로 만들어 그곳에 맵을 생성함
-                        {
-                            mapArray[0, 0] = false;
-                            mapArray[0, 1] = false;
-                            mapArray[0, 2] = false;
-                        }
-                        else if(1 - i == -1)
-                        {
-                            mapArray[2, 0] = false;
-                            mapArray[2, 1] = false;
-                            mapArray[2, 2] = false;
-                        }
-                        if(1 - j == 1)
-                        {
-                            mapArray[0, 0] = false;
-                            mapArray[1, 0] = false;
-                            mapArray[2, 0] = false;
-                        }
-                        else if(1 - j == -1)
-                        {
-                            mapArray[0, 2] = false;
-                            mapArray[1, 2] = false;
-                            mapArray[2, 2] = false;
-                        }
-                    }
-                }
-            }
-        }
-    }
     void MapCheck()
     {
         RaycastHit hit;
@@ -94,7 +54,7 @@ public class MapCreator : MonoBehaviour
             for(int z = 0; z < 3; z++)
             {
                 mapArray[x, z] = false;
-                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down, out hit, 1.0f))
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down, out hit, 1.0f, mask))
                 {
                     Debug.DrawRay(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down * 1.0f, Color.red);
                     mapArray[x, z] = true;
