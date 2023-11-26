@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 265313553661048269}
   - component: {fileID: 7484278887023078541}
   m_Layer: 5
-  m_Name: UP
+  m_Name: Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,9 +228,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: Up
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingForwardDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -244,9 +244,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: UpDown
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingForwardUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -350,9 +350,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: Right
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingRightDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -366,9 +366,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: RightDown
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingRightUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -740,9 +740,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: Left
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingLeftDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -756,9 +756,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: LeftDown
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingLeftUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1172,7 +1172,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &155289270626388584
+--- !u!114 &7777094559472654497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1181,7 +1181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5756284725545059843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1095cf2b1fbee5b41ba35d769ab594f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7db207f912491a540a0f8bb0733067e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deBugText: {fileID: 9081335154178806031}
@@ -1212,7 +1212,7 @@ GameObject:
   - component: {fileID: 3299080178205449486}
   - component: {fileID: 3230366192398073606}
   m_Layer: 5
-  m_Name: Down
+  m_Name: Backward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1293,9 +1293,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: Down
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingBackwardDown
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1309,9 +1309,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 155289270626388584}
-          m_TargetAssemblyTypeName: CarControl, Assembly-CSharp
-          m_MethodName: DownDown
+        - m_Target: {fileID: 7777094559472654497}
+          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+          m_MethodName: MovingBackwardUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1352,10 +1352,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2885270564180727795}
-  - {fileID: 8975662747421650699}
   - {fileID: 5280516465939559688}
   - {fileID: 2014843019730775656}
+  - {fileID: 2885270564180727795}
+  - {fileID: 8975662747421650699}
   - {fileID: 1553644865862902296}
   m_Father: {fileID: 6566111986118558684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

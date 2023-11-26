@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class CarManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
     public GameObject GameObjectToInstantiate; // 터치하여 생성할 오브젝트
 
