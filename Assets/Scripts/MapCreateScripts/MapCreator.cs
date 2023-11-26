@@ -1,37 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UIElements;
 
 public class MapCreator : MonoBehaviour
 {
-    public static Transform onPlayerMap;//플레이어가 위치한 땅 이 땅이 currentMapObject[1,1]과 다르다면 플레이어가 이동한 것
-    public static bool center;
-    Ray checkerRay;
-    RaycastHit hit;    //같은 곳에 맵을 성성하지 않도록 땅이 있는지 확인하는 체커
+    public static Transform onPlayerMap;//플레이어가 위치한 땅 이 땅이 currentMapObject[1,1]과 다르다면 플레이어가 이동한 것 
+    Ray checkerRay;    //같은 곳에 맵을 성성하지 않도록 땅이 있는지 확인하는 체커
     public static bool[,] mapArray = new bool[3, 3];//땅을 만들때 true를 넣어줌
     public static Transform[,] currentMapObject = new Transform[3, 3]; //플레이어가 어디로 이동했는지 알기 위해 각 땅의 정보를 담을 배열
     public Transform map; //맵
+    Transform hitTemp;
+    int mask = 1 << 6;
+    float width = 0.3f;
 
     // Start is called before the first frame update
     void Start()//플레이어가 오브젝트와 겹치는 문제가 있어 시작할때 플레이어의 자리에 땅을 하나 만들어줌
     {
         Transform MapInstance;
         MapInstance = Instantiate(map);
+        MapInstance.position = new Vector3(MapInstance.position.x, -1.5f, MapInstance.position.z);
         onPlayerMap = MapInstance;
-        mapArray[1, 1] = true;
-        center = true;
-        for (int z = 0; z < 3; z++) //처음엔 모두 false이기 때문에 플레이어 주변 8칸에 맵이 생성됨
-        {
-            for(int x = 0; x < 3; x++)
-            {
-                if (mapArray[z, x] == false)
-                {
-                    MapCreate(z, x);
-                }
-            }
-        }
+        StartCoroutine(ElevateMap(MapInstance));
         currentMapObject[1, 1] = onPlayerMap; // 플레이어의 위치는 오브젝트 배열상에서 언제나 [1,1]에 위치
+        hitTemp = onPlayerMap.transform;
+        MapCreate();
     }
 
     // Update is called once per frame
@@ -39,109 +34,145 @@ public class MapCreator : MonoBehaviour
     {
         //this.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);//맵 생성기가 언제나 각 맵의 중앙에 위치하도록 해줌
         //this.gameObject.transform.position = onPlayerMap.transform.position;
-    }
-    void PlayerMoved(Collider coll)
-    {
-        Debug.Log("moved");
-        onPlayerMap = coll.transform;
-        if(onPlayerMap == currentMapObject[1, 1])//플레이어가 중앙에 있는지 확인
-            center = true;
-        if(onPlayerMap != currentMapObject[1, 1])//중앙이 아니라면 어느곳으로 이동했는지 확인
+        //PlayerMoved();
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down * 1.0f, Color.red);
+        if(Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down, out hit, 1.0f, mask))
         {
-            center = false;
-            for(int i = 0; i < 3; i++)
+            if(hitTemp != hit.transform)
             {
-                for(int j = 0; j < 3; j++)
+                onPlayerMap = hit.transform;
+                MapCheck();
+            }
+        }
+        hitTemp = hit.transform;
+        Move();
+    }
+    void MapCheck()
+    {
+        RaycastHit hit;
+        for(int x = 0; x < 3; x++)
+        {
+            for(int z = 0; z < 3; z++)
+            {
+                mapArray[x, z] = false;
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down, out hit, 5.0f, mask))
                 {
-                    if(onPlayerMap == currentMapObject[i, j])//플레이어의 위치를 확인
-                    {
-                        if(1 - i == 1)  //만약 i(z)축으로 이동했다면 createdMap배열 윗줄을 모두 false로 만들어 그곳에 맵을 생성함
-                        {
-                            mapArray[0, 0] = false;
-                            mapArray[0, 1] = false;
-                            mapArray[0, 2] = false;
-                        }
-                        else if(1 - i == -1)
-                        {
-                            mapArray[2, 0] = false;
-                            mapArray[2, 1] = false;
-                            mapArray[2, 2] = false;
-                        }
-                        if(1 - j == 1)
-                        {
-                            mapArray[0, 0] = false;
-                            mapArray[1, 0] = false;
-                            mapArray[2, 0] = false;
-                        }
-                        else if(1 - j == -1)
-                        {
-                            mapArray[0, 2] = false;
-                            mapArray[1, 2] = false;
-                            mapArray[2, 2] = false;
-                        }
-                    }
+                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down * 5.0f, Color.red);
+                    mapArray[x, z] = true;
+                    // for(int a = 0; a < 3; a++)
+                    // {
+                    //     for(int b = 0; b < 3; b++)
+                    //     {
+                    //         Debug.Log(mapArray[a, b]);
+                    //     }
+                    // }
                 }
             }
         }
-        for(int z = 0; z < 3; z++)
+        MapCreate();
+    }
+    void MapCreate()
+    {
+        for(int x = 0; x < 3; x++)
         {
-            for(int x = 0; x < 3; x++)
+            for(int z = 0; z < 3; z++)
             {
-                if(mapArray[z, x] == false)//플레이어가 움직였고 맵을 만들 곳에 맵이없다면 맵을 생성해줌
-                    MapCreate(z, x);
+                //10, 01, 21, 12
+                if(mapArray[x, z])
+                    continue;
+                else
+                {
+                    int rand = Random.Range(0, 2);
+                    Transform MapInstance;
+                    MapInstance = Instantiate(map);
+                    MapInstance.transform.position = new Vector3(onPlayerMap.transform.position.x, 0.0f, onPlayerMap.transform.position.z);//플레이어가 위치한 땅으로 인스턴스의 위치 초기화
+                    // if((z == 1 && x == 0) || (z == 0 && x == 1) || (z == 2 && x == 1) || (z == 1 && x == 2))
+                    // {
+                    //     MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
+                    // }
+                    switch (z) //z의 값에 따라 인스턴스의 위치 조절
+                    {
+                        case 0:
+                            MapInstance.transform.position += new Vector3(0.0f, 0.0f, -width);
+                            break;
+                        case 1:
+                            MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.0f);
+                            break;
+                        case 2:
+                            MapInstance.transform.position += new Vector3(0.0f, 0.0f, width);
+                            break;
+                    }
+                    switch (x) //x의 값에 따라 인스턴스의 위치 조절 
+                    {
+                        case 0:
+                            MapInstance.transform.position += new Vector3(-width, 0.0f, 0.0f);
+                            break;
+                        case 1:
+                            MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.0f);
+                            break;
+                        case 2:
+                            MapInstance.transform.position += new Vector3(width, 0.0f, 0.0f);
+                            break;
+                    }
+                    if(rand == 1)
+                    {
+                        MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
+                    }
+                    currentMapObject[x, z] = MapInstance;
+                    MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
+                    StartCoroutine(ElevateMap(MapInstance));
+                    mapArray[x, z] = true;  //만들었으니 배열에 표시해줌
+                }
             }
         }
     }
-    void MapCreate(int z, int x)
+
+    IEnumerator ElevateMap(Transform mapInstance)
     {
-        Transform MapInstance;
-        MapInstance = Instantiate(map);
-        MapInstance.transform.position = onPlayerMap.transform.position;//플레이어가 위치한 땅으로 인스턴스의 위치 초기화
-        mapArray[z, x] = false;
-        if(Physics.Raycast(MapInstance.transform.position + new Vector3(0.3f * z - 0.3f, 1.0f, 0.3f * x - 0.3f), Vector3.down, out hit, 1.0f))
+        float mapInstanceY = mapInstance.position.y + 1.5f;
+        while (mapInstance.position.y < mapInstanceY)
         {
-            mapArray[z, x] = true;
-            // for(int a = 0; a < 3; a++)
-            // {
-            //     for(int b = 0; b < 3; b++)
-            //     {
-            //         Debug.Log(mapArray[a, b]);
-            //     }
-            // }
+            mapInstance.position += new Vector3(0.0f, 3.0f * Time.deltaTime, 0.0f);
+            yield return null;
         }
-        Debug.DrawRay(MapInstance.transform.position + new Vector3(0.3f * z - 0.3f, 1.0f, 0.3f * x - 0.3f), Vector3.down * 1.0f, Color.red);
-        //int z = index / 3;  //index를 축으로 변환해줌
-        //int x = index % 3;
-        switch (z)  //i(z)의 값에 따라 인스턴스의 위치 조절 
+        mapInstance.position = new Vector3(mapInstance.position.x, mapInstanceY, mapInstance.position.z);
+        yield return new WaitForSeconds(10.0f);
+        while (mapInstance.position.y > mapInstanceY - 3.0f)
         {
-            case 0:
-                MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.3f);
-                break;
-            case 1:
-                MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.0f);
-                break;
-            case 2:
-                MapInstance.transform.position += new Vector3(0.0f, 0.0f, -0.3f);
-                break;
+            mapInstance.position -= new Vector3(0.0f, 3.0f * Time.deltaTime, 0.0f);
+            yield return null;
         }
-        switch (x)  //j(x)의 값에 따라 인스턴스의 위치 조절 
-        {
-            case 0:
-                MapInstance.transform.position += new Vector3(-0.3f, 0.0f, 0.0f);
-                break;
-            case 1:
-                MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.0f);
-                break;
-            case 2:
-                MapInstance.transform.position += new Vector3(0.3f, 0.0f, 0.0f);
-                break;
-        }
-        mapArray[z, x] = true;  //만들었으니 배열에 표시해줌
+        Destroy(mapInstance.gameObject);
+        yield return new WaitForSeconds(3.0f);
     }
 
-    void OncollisionEnter(Collider other) 
+    void Move()
     {
-        Debug.Log("asdf");
-        PlayerMoved(other);
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+            transform.position += Vector3.forward * 1.0f * Time.deltaTime;
+        }
+        
+        if(Input.GetKey(KeyCode.DownArrow))
+        {
+            transform.position += Vector3.back * 1.0f * Time.deltaTime;
+        }
+        
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.position += Vector3.left * 1.0f * Time.deltaTime;
+        }
+        
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.position += Vector3.right * 1.0f * Time.deltaTime;
+        }
     }
+
+    // void OnCollisionEnter(Collision other) 
+    // {
+    //     onPlayerMap = other.transform;
+    //     MapCheck();
+    // }
 }
