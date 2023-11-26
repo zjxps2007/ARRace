@@ -13,15 +13,18 @@ public class MapCreator : MonoBehaviour
     public static Transform[,] currentMapObject = new Transform[3, 3]; //플레이어가 어디로 이동했는지 알기 위해 각 땅의 정보를 담을 배열
     public Transform map; //맵
     Transform hitTemp;
+    Vector3 startPlayerPos;
     int mask = 1 << 6;
     float width = 0.3f;
+    GameObject playerObj;
 
     // Start is called before the first frame update
     void Start()//플레이어가 오브젝트와 겹치는 문제가 있어 시작할때 플레이어의 자리에 땅을 하나 만들어줌
     {
+        startPlayerPos = transform.position;
         Transform MapInstance;
         MapInstance = Instantiate(map);
-        MapInstance.position = new Vector3(MapInstance.position.x, -1.5f, MapInstance.position.z);
+        MapInstance.position = new Vector3(MapInstance.position.x, startPlayerPos.y - 4.5f, MapInstance.position.z);
         onPlayerMap = MapInstance;
         StartCoroutine(ElevateMap(MapInstance));
         currentMapObject[1, 1] = onPlayerMap; // 플레이어의 위치는 오브젝트 배열상에서 언제나 [1,1]에 위치
@@ -32,9 +35,6 @@ public class MapCreator : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()//그냥 업데이트를 사용하면 맵이 중복되어 생기는 현상이 있어 fixedupdate사용
     {
-        //this.gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);//맵 생성기가 언제나 각 맵의 중앙에 위치하도록 해줌
-        //this.gameObject.transform.position = onPlayerMap.transform.position;
-        //PlayerMoved();
         RaycastHit hit;
         Debug.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down * 1.0f, Color.red);
         if(Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down, out hit, 1.0f, mask))
@@ -56,9 +56,9 @@ public class MapCreator : MonoBehaviour
             for(int z = 0; z < 3; z++)
             {
                 mapArray[x, z] = false;
-                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down, out hit, 5.0f, mask))
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down, out hit, 10.0f, mask))
                 {
-                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down * 5.0f, Color.red);
+                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down * 10.0f, Color.red);
                     mapArray[x, z] = true;
                     // for(int a = 0; a < 3; a++)
                     // {
@@ -117,10 +117,10 @@ public class MapCreator : MonoBehaviour
                     }
                     if(rand == 1)
                     {
-                        MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
+                        MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - 4.5f, 0.0f);
                     }
                     currentMapObject[x, z] = MapInstance;
-                    MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
+                    MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - 4.5f, 0.0f);
                     StartCoroutine(ElevateMap(MapInstance));
                     mapArray[x, z] = true;  //만들었으니 배열에 표시해줌
                 }
@@ -128,7 +128,7 @@ public class MapCreator : MonoBehaviour
         }
     }
 
-    IEnumerator ElevateMap(Transform mapInstance)
+    IEnumerator ElevateMap(Transform mapInstance) //맵이 생성될 때 아래에서 위로 올라오도록 하는 코루틴
     {
         float mapInstanceY = mapInstance.position.y + 1.5f;
         while (mapInstance.position.y < mapInstanceY)
