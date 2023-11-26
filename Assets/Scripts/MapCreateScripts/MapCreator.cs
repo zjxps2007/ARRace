@@ -46,6 +46,7 @@ public class MapCreator : MonoBehaviour
             }
         }
         hitTemp = hit.transform;
+        Move();
     }
     void MapCheck()
     {
@@ -144,6 +145,29 @@ public class MapCreator : MonoBehaviour
         }
         Destroy(mapInstance.gameObject);
         yield return new WaitForSeconds(3.0f);
+    }
+
+    void Move()
+    {
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+            transform.position += Vector3.forward * 1.0f * Time.deltaTime;
+        }
+        
+        if(Input.GetKey(KeyCode.DownArrow))
+        {
+            transform.position += Vector3.back * 1.0f * Time.deltaTime;
+        }
+        
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.position += Vector3.left * 1.0f * Time.deltaTime;
+        }
+        
+        if(Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.position += Vector3.right * 1.0f * Time.deltaTime;
+        }
     }
 
     // void OnCollisionEnter(Collision other) 
