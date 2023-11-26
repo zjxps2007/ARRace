@@ -7,7 +7,7 @@ public class PlayerControl : MonoBehaviour
     protected TextMeshProUGUI deBugText;
 
     private float moveSpeed = 1.0f;
-    public float rotSpeed = 0.1f;
+    private float rotSpeed = 50.0f;
     
     /*==========================이동 관련 변수 선언==========================*/
     protected bool isMovingForward = false;
@@ -41,22 +41,22 @@ public class PlayerControl : MonoBehaviour
 
         if (isMovingForward)
         {
-            transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
+            transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
         
         if (isMovingBackward)
         {
-            transform.position -= Vector3.forward * moveSpeed * Time.deltaTime;
+            transform.position -= transform.forward * moveSpeed * Time.deltaTime;
         }
         
         if (isMovingLeft )
         {
-            transform.position -= Vector3.right * moveSpeed * Time.deltaTime;
+            transform.rotation *= Quaternion.Euler(0, Time.deltaTime * -rotSpeed, 0f);
         }
         
         if (isMovingRight)
         {
-            transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+            transform.rotation *= Quaternion.Euler(0, Time.deltaTime * rotSpeed, 0f);
         }
     }
 }
