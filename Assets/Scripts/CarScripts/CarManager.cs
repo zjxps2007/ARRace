@@ -43,8 +43,8 @@ public class CarManager : MonoBehaviour
             else
             {
                 // 생성된 오브젝트가 있다면, hitPose 위치 정보에 맞게 위치 좌표와 회전값을 대입하여 이동시킨다.
-                spawnedObject.transform.position = hitPose.position;
-                spawnedObject.transform.rotation = hitPose.rotation;
+                // spawnedObject.transform.position = hitPose.position;
+                // spawnedObject.transform.rotation = hitPose.rotation;
 
                 foreach (var plane in arPlaneManager.trackables)
                 {
