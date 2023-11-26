@@ -22,10 +22,10 @@ public class MapCreator : MonoBehaviour
         onPlayerMap = MapInstance;
         mapArray[1, 1] = true;
         center = true;
-        MapCreate();
         mask = 1 << 6;
         currentMapObject[1, 1] = onPlayerMap; // 플레이어의 위치는 오브젝트 배열상에서 언제나 [1,1]에 위치
         hitTemp = onPlayerMap.transform;
+        MapCreate();
     }
 
     // Update is called once per frame
@@ -54,9 +54,9 @@ public class MapCreator : MonoBehaviour
             for(int z = 0; z < 3; z++)
             {
                 mapArray[x, z] = false;
-                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down, out hit, 1.0f, mask))
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down, out hit, 2.0f, mask))
                 {
-                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down * 1.0f, Color.red);
+                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(0.3f * x - 0.3f, 1.0f, 0.3f * z - 0.3f), Vector3.down * 2.0f, Color.red);
                     mapArray[x, z] = true;
                     for(int a = 0; a < 3; a++)
                     {
@@ -76,14 +76,20 @@ public class MapCreator : MonoBehaviour
         {
             for(int z = 0; z < 3; z++)
             {
+                //10, 01, 21, 12
                 if(mapArray[x, z])
                     continue;
                 else
                 {
+                    int rand = Random.Range(0, 2);
                     Transform MapInstance;
                     MapInstance = Instantiate(map);
                     MapInstance.transform.position = onPlayerMap.transform.position;//플레이어가 위치한 땅으로 인스턴스의 위치 초기화
-                    switch (z)  //z의 값에 따라 인스턴스의 위치 조절 
+                    // if((z == 1 && x == 0) || (z == 0 && x == 1) || (z == 2 && x == 1) || (z == 1 && x == 2))
+                    // {
+                    //     MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
+                    // }
+                    switch (z) //z의 값에 따라 인스턴스의 위치 조절
                     {
                         case 0:
                             MapInstance.transform.position += new Vector3(0.0f, 0.0f, -0.3f);
@@ -95,7 +101,7 @@ public class MapCreator : MonoBehaviour
                             MapInstance.transform.position += new Vector3(0.0f, 0.0f, 0.3f);
                             break;
                     }
-                    switch (x)  //x의 값에 따라 인스턴스의 위치 조절 
+                    switch (x) //x의 값에 따라 인스턴스의 위치 조절 
                     {
                         case 0:
                             MapInstance.transform.position += new Vector3(-0.3f, 0.0f, 0.0f);
@@ -106,6 +112,10 @@ public class MapCreator : MonoBehaviour
                         case 2:
                             MapInstance.transform.position += new Vector3(0.3f, 0.0f, 0.0f);
                             break;
+                    }
+                    if(rand == 1)
+                    {
+                        MapInstance.transform.position += new Vector3(0.0f, -1.5f, 0.0f);
                     }
                     currentMapObject[x, z] = MapInstance;
                     mapArray[x, z] = true;  //만들었으니 배열에 표시해줌
