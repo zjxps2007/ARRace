@@ -116,6 +116,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3632539131336602087}
     m_Modifications:
+    - target: {fileID: -1139456490909636887, guid: 4eca7a8ef879cfb41b294a8c0d69ea58,
+        type: 3}
+      propertyPath: rotate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1516206009078322, guid: 4eca7a8ef879cfb41b294a8c0d69ea58, type: 3}
       propertyPath: m_Name
       value: CoinGold

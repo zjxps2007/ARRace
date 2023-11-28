@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UIElements;
 using UnityEngine.XR.ARFoundation;
 
 public class MapCreator : MonoBehaviour
@@ -180,10 +176,4 @@ public class MapCreator : MonoBehaviour
             transform.position += Vector3.right * 1.0f * Time.deltaTime;
         }
     }
-
-    // void OnCollisionEnter(Collision other) 
-    // {
-    //     onPlayerMap = other.transform;
-    //     MapCheck();
-    // }
 }
