@@ -39,10 +39,10 @@ public class SimpleCollectibleScript : MonoBehaviour {
 
 	public void Collect()
 	{
-		if(collectSound)
-			AudioSource.PlayClipAtPoint(collectSound, transform.position);
-		if(collectEffect)
-			Instantiate(collectEffect, transform.position, Quaternion.identity);
+		// if(collectSound)
+		// 	AudioSource.PlayClipAtPoint(collectSound, transform.position);
+		// if(collectEffect)
+		// 	Instantiate(collectEffect, transform.position, Quaternion.identity);
 
 		//Below is space to add in your code for what happens based on the collectible type
 

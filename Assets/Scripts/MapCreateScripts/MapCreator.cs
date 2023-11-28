@@ -83,6 +83,7 @@ public class MapCreator : MonoBehaviour
                     continue;
                 else
                 {
+                    int coinRand = Random.Range(0, 5);
                     int rand = Random.Range(0, 2);
                     Transform MapInstance;
                     MapInstance = Instantiate(map);
@@ -118,6 +119,10 @@ public class MapCreator : MonoBehaviour
                     if(rand == 1)
                     {
                         MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - 4.5f, 0.0f);
+                    }
+                    if(rand != 1 && coinRand == 0)
+                    {
+                        MapInstance.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     currentMapObject[x, z] = MapInstance;
                     MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - 4.5f, 0.0f);
