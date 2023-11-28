@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour
     
     /*==========================이동 속도 변수 선언==========================*/
     private float moveSpeed = 1.0f; // 움직임
-    private float rotSpeed = 50.0f; // 회전
+    private float rotSpeed = 120.0f; // 회전
     
     /*==========================이동 관련 변수 선언==========================*/
     protected bool isMovingForward = false;  // 전진
