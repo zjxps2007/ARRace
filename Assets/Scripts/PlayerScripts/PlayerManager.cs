@@ -1,17 +1,20 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static int coin = 50;
+    
     public GameObject GameObjectToInstantiate; // 터치하여 생성할 오브젝트
 
     private ARRaycastManager arRaycastManager; // RaycastManager 참조
     private ARPlaneManager arPlaneManager; // ARPlaneManager 참조
     private GameObject spawnedObject; // 생성한 게임 오브젝트 저장할 변수 선언
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    public ARPlane playingPlane;
+    public static ARPlane playingPlane;
 
     // Start is called before the first frame update
     void Start()

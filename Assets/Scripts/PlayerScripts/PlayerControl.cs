@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
-    /*==========================코인 추가 변수 선언==========================*/
+    /*==========================코인 UI 변수 선언==========================*/
     [SerializeField]
-    protected TextMeshProUGUI coin;
-    public int coinCount = 50;
+    private TextMeshProUGUI coin;
     
     /*==========================이동 속도 변수 선언==========================*/
     private float moveSpeed = 1.0f; // 움직임
@@ -17,6 +17,8 @@ public class PlayerControl : MonoBehaviour
     protected bool isMovingBackward = false; // 후진
     protected bool isMovingLeft = false;     // 왼쪽 회전
     protected bool isMovingRight = false;    // 오른쪽 회전
+
+    private SceneManager sceneManager;
     
     
     // Update is called once per frame
@@ -37,7 +39,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-        coin.text = "coin : " + coinCount;
+        coin.text = $"coin : {PlayerManager.coin}";
         Move();
     }
     
@@ -61,6 +63,15 @@ public class PlayerControl : MonoBehaviour
         if (isMovingRight)
         {
             transform.rotation *= Quaternion.Euler(0, Time.deltaTime * rotSpeed, 0f);
+        }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.transform == PlayerManager.playingPlane.gameObject.transform)
+        {
+            //게임 오버
+            PlayerManager.coin = 1000;
         }
     }
     

@@ -5,7 +5,6 @@ public class CoinController : MonoBehaviour
     public AudioClip collectSound;
     public GameObject collectEffect;
     public PlayerControl coinCount;
-    
 
     // Use this for initialization
     void Start()
@@ -25,6 +24,7 @@ public class CoinController : MonoBehaviour
         Debug.Log("asdf");
         if (other.CompareTag("Player"))
         {
+            PlayerManager.coin--;
             Collect();
             Debug.Log("Player");
         }
@@ -33,7 +33,6 @@ public class CoinController : MonoBehaviour
     void Collect()
     {
         Debug.Log("Coll");
-        coinCount.coinCount--;
         Destroy(gameObject);
         // if(collectSound)
         // 	AudioSource.PlayClipAtPoint(collectSound, transform.position);
