@@ -1,24 +1,17 @@
-using TMPro;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    [SerializeField]
-    protected TextMeshProUGUI deBugText;
-
-    private float moveSpeed = 1.0f;
-    private float rotSpeed = 50.0f;
+    
+    /*==========================이동 속도 변수 선언==========================*/
+    private float moveSpeed = 1.0f; // 움직임
+    private float rotSpeed = 50.0f; // 회전
     
     /*==========================이동 관련 변수 선언==========================*/
-    protected bool isMovingForward = false;
-    protected bool isMovingBackward = false;
-    protected bool isMovingLeft = false;
-    protected bool isMovingRight = false;
-    
-    protected virtual void Start()
-    {
-        Debug.Log("Parent Script: Initialized");
-    }
+    protected bool isMovingForward = false;  // 전진
+    protected bool isMovingBackward = false; // 후진
+    protected bool isMovingLeft = false;     // 왼쪽 회전
+    protected bool isMovingRight = false;    // 오른쪽 회전
 
     // Update is called once per frame
     void Update()
