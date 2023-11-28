@@ -1,46 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinController : MonoBehaviour
 {
-	public bool rotate; // do you want it to rotate?
+    public AudioClip collectSound;
+    public GameObject collectEffect;
+    public PlayerControl coinCount;
 
-	public float rotationSpeed;
+    // Use this for initialization
+    void Start()
+    {
+        
+    }
 
-	public AudioClip collectSound;
+    // Update is called once per frame
+    void Update()
+    {
+        transform.Rotate(Vector3.up * 10.0f * Time.deltaTime, Space.World);
+    }
 
-	public GameObject collectEffect;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		if (rotate)
-			transform.Rotate (Vector3.up * rotationSpeed * Time.deltaTime, Space.World);
-
-	}
-
-	void OnTriggerEnter(Collider other)
-	{
+    // 플레이어가 코인을 먹을때
+    void OnTriggerEnter(Collider other)
+    {
         Debug.Log("asdf");
-		if (other.tag == "Player") {
-			Collect();
+        if (other.CompareTag("Player"))
+        {
+            Collect();
             Debug.Log("Player");
-		}
-	}
+        }
+    }
 
     void Collect()
     {
-        Debug.Log("Coll");
-		Destroy (gameObject);
-		// if(collectSound)
-		// 	AudioSource.PlayClipAtPoint(collectSound, transform.position);
-		// if(collectEffect)
-		// 	Instantiate(collectEffect, transform.position, Quaternion.identity);
+        /*=====================코인 마이너스 ====================================*/
+        PlayerManager.coin--;
+        
+        /*=====================코인 먹은 후 Effect 생성===========================*/
+        Instantiate(collectEffect, transform.position, Quaternion.identity);
+        
+        Destroy(gameObject);
+        // if(collectSound)
+        // 	AudioSource.PlayClipAtPoint(collectSound, transform.position);
     }
 }

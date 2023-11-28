@@ -1,7 +1,12 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
+    /*==========================코인 UI 변수 선언==========================*/
+    [SerializeField]
+    private TextMeshProUGUI coin;
     
     /*==========================이동 속도 변수 선언==========================*/
     private float moveSpeed = 1.0f; // 움직임
@@ -13,6 +18,9 @@ public class PlayerControl : MonoBehaviour
     protected bool isMovingLeft = false;     // 왼쪽 회전
     protected bool isMovingRight = false;    // 오른쪽 회전
 
+    private SceneManager sceneManager;
+    
+    
     // Update is called once per frame
     void Update()
     {
@@ -31,7 +39,12 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-
+        coin.text = $"coin : {PlayerManager.coin}";
+        Move();
+    }
+    
+    private void Move()
+    {
         if (isMovingForward)
         {
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
@@ -51,5 +64,54 @@ public class PlayerControl : MonoBehaviour
         {
             transform.rotation *= Quaternion.Euler(0, Time.deltaTime * rotSpeed, 0f);
         }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.transform == PlayerManager.playingPlane.gameObject.transform)
+        {
+            //게임 오버
+            PlayerManager.coin = 1000;
+        }
+    }
+    
+    public void MovingForwardUp()
+    {
+        isMovingForward = false;
+    }
+    
+    public void MovingForwardDown()
+    {
+        isMovingForward = true;
+    }
+
+    public void MovingBackwardUp()
+    {
+        isMovingBackward = false;
+    }
+    
+    public void MovingBackwardDown()
+    {
+        isMovingBackward = true;
+    }
+
+    public void MovingLeftUp()
+    {
+        isMovingLeft = false;
+    }
+    
+    public void MovingLeftDown()
+    {
+        isMovingLeft = true;
+    }
+
+    public void MovingRightUp()
+    {
+        isMovingRight = false;
+    }
+    
+    public void MovingRightDown()
+    {
+        isMovingRight = true;
     }
 }
