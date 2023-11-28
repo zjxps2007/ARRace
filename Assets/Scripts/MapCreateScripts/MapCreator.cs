@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
+using UnityEngine.XR.ARFoundation;
 
 public class MapCreator : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class MapCreator : MonoBehaviour
     Vector3 startPlayerPos;
     int mask = 1 << 6;
     float width = 0.3f;
+    float height = 2.75f;
     GameObject playerObj;
+    ARPlane playingPlane;
 
     // Start is called before the first frame update
     void Start()//플레이어가 오브젝트와 겹치는 문제가 있어 시작할때 플레이어의 자리에 땅을 하나 만들어줌
@@ -24,7 +27,7 @@ public class MapCreator : MonoBehaviour
         startPlayerPos = transform.position;
         Transform MapInstance;
         MapInstance = Instantiate(map);
-        MapInstance.position = new Vector3(MapInstance.position.x, startPlayerPos.y - 4.5f, MapInstance.position.z);
+        MapInstance.position = new Vector3(startPlayerPos.x, startPlayerPos.y - height, startPlayerPos.z);
         onPlayerMap = MapInstance;
         StartCoroutine(ElevateMap(MapInstance));
         currentMapObject[1, 1] = onPlayerMap; // 플레이어의 위치는 오브젝트 배열상에서 언제나 [1,1]에 위치
@@ -35,6 +38,10 @@ public class MapCreator : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()//그냥 업데이트를 사용하면 맵이 중복되어 생기는 현상이 있어 fixedupdate사용
     {
+        // if(playingPlane == null)
+        // {
+        //     playingPlane = GetComponent<PlayerManager>().playingPlane;
+        // }
         RaycastHit hit;
         Debug.DrawRay(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down * 1.0f, Color.red);
         if(Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down, out hit, 1.0f, mask))
@@ -56,17 +63,17 @@ public class MapCreator : MonoBehaviour
             for(int z = 0; z < 3; z++)
             {
                 mapArray[x, z] = false;
-                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down, out hit, 10.0f, mask))
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f, mask))
                 {
-                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 1.0f, width * z - width), Vector3.down * 10.0f, Color.red);
+                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down * 10.0f, Color.red);
                     mapArray[x, z] = true;
-                    // for(int a = 0; a < 3; a++)
-                    // {
-                    //     for(int b = 0; b < 3; b++)
-                    //     {
-                    //         Debug.Log(mapArray[a, b]);
-                    //     }
-                    // }
+                }
+                else if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f))
+                {
+                    if(hit.transform == null)
+                    {
+                        mapArray[x, z] = true;
+                    }
                 }
             }
         }
@@ -78,7 +85,6 @@ public class MapCreator : MonoBehaviour
         {
             for(int z = 0; z < 3; z++)
             {
-                //10, 01, 21, 12
                 if(mapArray[x, z])
                     continue;
                 else
@@ -118,14 +124,14 @@ public class MapCreator : MonoBehaviour
                     }
                     if(rand == 1)
                     {
-                        MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - 4.5f, 0.0f);
+                        MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - height, 0.0f);
                     }
                     if(rand != 1 && coinRand == 0)
                     {
                         MapInstance.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     currentMapObject[x, z] = MapInstance;
-                    MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - 4.5f, 0.0f);
+                    MapInstance.transform.position += new Vector3(0.0f, startPlayerPos.y - height, 0.0f);
                     StartCoroutine(ElevateMap(MapInstance));
                     mapArray[x, z] = true;  //만들었으니 배열에 표시해줌
                 }
@@ -143,7 +149,7 @@ public class MapCreator : MonoBehaviour
         }
         mapInstance.position = new Vector3(mapInstance.position.x, mapInstanceY, mapInstance.position.z);
         yield return new WaitForSeconds(10.0f);
-        while (mapInstance.position.y > mapInstanceY - 3.0f)
+        while (mapInstance.position.y > mapInstanceY - 0.5f)
         {
             mapInstance.position -= new Vector3(0.0f, 3.0f * Time.deltaTime, 0.0f);
             yield return null;

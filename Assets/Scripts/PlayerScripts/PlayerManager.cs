@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     private ARPlaneManager arPlaneManager; // ARPlaneManager 참조
     private GameObject spawnedObject; // 생성한 게임 오브젝트 저장할 변수 선언
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    public ARPlane playingPlane;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,13 @@ public class PlayerManager : MonoBehaviour
         if (arRaycastManager.Raycast(touchPosition, hits, TrackableType.Planes))
         {
             var hitPose = hits[0].pose; // ray에 맞은 결과의 첫번째 정보를 변수로 선언
+            foreach(var plane in arPlaneManager.trackables)
+            {
+                if(hits[0].trackable == plane)
+                {
+                    playingPlane = plane;
+                }
+            }
 
             if (spawnedObject == null)
             {
@@ -47,8 +55,12 @@ public class PlayerManager : MonoBehaviour
 
                 foreach (var plane in arPlaneManager.trackables)
                 {
+                    if(playingPlane != plane)
+                    {
+                        plane.gameObject.SetActive(false); 
+                    }
                     // 오브젝트가 생성되었기 때문에 Plane 인스턴스 생성을 멈추게 한다.
-                    plane.gameObject.SetActive(false);
+                    //plane.gameObject.SetActive(false);
                 }
             }
         }
