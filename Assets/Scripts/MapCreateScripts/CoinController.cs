@@ -24,7 +24,6 @@ public class CoinController : MonoBehaviour
         Debug.Log("asdf");
         if (other.CompareTag("Player"))
         {
-            PlayerManager.coin--;
             Collect();
             Debug.Log("Player");
         }
@@ -32,11 +31,14 @@ public class CoinController : MonoBehaviour
 
     void Collect()
     {
-        Debug.Log("Coll");
+        /*=====================코인 마이너스 ====================================*/
+        PlayerManager.coin--;
+        
+        /*=====================코인 먹은 후 Effect 생성===========================*/
+        Instantiate(collectEffect, transform.position, Quaternion.identity);
+        
         Destroy(gameObject);
         // if(collectSound)
         // 	AudioSource.PlayClipAtPoint(collectSound, transform.position);
-        // if(collectEffect)
-        // 	Instantiate(collectEffect, transform.position, Quaternion.identity);
     }
 }
