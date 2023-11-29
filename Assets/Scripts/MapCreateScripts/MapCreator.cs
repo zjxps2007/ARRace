@@ -176,7 +176,7 @@ public class MapCreator : MonoBehaviour
             transform.position += Vector3.right * 1.0f * Time.deltaTime;
         }
         
-        /******************** 테스트 ********************/
+        /******************** 테스트 중 건드리지 마세요********************/
         if (Input.GetKey(KeyCode.T))
         {
             var camera = Camera.main;
