@@ -2456,7 +2456,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1095cf2b1fbee5b41ba35d769ab594f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectEffect: {fileID: 2281006907581228350, guid: c82dc78884555fe40a41dad33150335b,
+  gameOverUI: {fileID: 2281006907581228350, guid: c82dc78884555fe40a41dad33150335b,
+    type: 3}
+  gameClearUI: {fileID: 2281006907581228350, guid: 18a7ec7a7430fb3418ca9773e220f995,
     type: 3}
   coin: {fileID: 6916085982309039318}
 --- !u!65 &532522574654717693

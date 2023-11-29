@@ -6,7 +6,7 @@ using UnityEngine.XR.ARSubsystems;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static int coin = 50;
+    public static int coin = 10;
     
     public GameObject GameObjectToInstantiate; // 터치하여 생성할 오브젝트
 
