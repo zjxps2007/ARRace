@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,12 +19,29 @@ public class PlayerControl : MonoBehaviour
     protected bool isMovingLeft = false;     // 왼쪽 회전
     protected bool isMovingRight = false;    // 오른쪽 회전
 
+    float timer = 0.0f;
+    Animator animator;
+
     private SceneManager sceneManager;
     
-    
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        if(isMovingForward || isMovingBackward)
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -71,10 +89,11 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.transform == PlayerManager.playingPlane.gameObject.transform)
+         if (other.transform == PlayerManager.playingPlane.gameObject.transform && timer > 1.5f)
         {
             //게임 오버
-            PlayerManager.coin = 1000;
+            Destroy(this.gameObject);
+            SceneManager.LoadScene(0);
         }
     }
     
