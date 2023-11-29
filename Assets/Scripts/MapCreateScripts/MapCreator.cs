@@ -175,5 +175,17 @@ public class MapCreator : MonoBehaviour
         {
             transform.position += Vector3.right * 1.0f * Time.deltaTime;
         }
+        
+        /******************** 테스트 ********************/
+        if (Input.GetKey(KeyCode.T))
+        {
+            var camera = Camera.main;
+            // Ray ray = new Ray(transform1.position, transform1.position);
+            
+            Ray ray = camera.ScreenPointToRay(new Vector3(camera.pixelWidth / 2, camera.pixelHeight / 2, 0));
+            Debug.DrawRay(ray.origin, ray.direction * 4.3f, Color.green);
+            
+            Debug.Log("UI On");
+        }
     }
 }
