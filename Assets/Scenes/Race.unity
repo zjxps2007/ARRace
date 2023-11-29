@@ -724,7 +724,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameObjectToInstantiate: {fileID: 5756284725545059843, guid: ab62e97fa2cae43b78b1a7b47466a5e2,
     type: 3}
-  playingPlane: {fileID: 0}
 --- !u!1 &2075352993
 GameObject:
   m_ObjectHideFlags: 0
