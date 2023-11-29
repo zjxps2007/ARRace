@@ -66,7 +66,7 @@ public class MapCreator : MonoBehaviour
                 }
                 else if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f))
                 {
-                    if(hit.transform == null)
+                    if(hit.transform != PlayerManager.playingPlane)
                     {
                         mapArray[x, z] = true;
                     }

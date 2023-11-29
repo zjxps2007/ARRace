@@ -126,8 +126,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingRightDown
           m_Mode: 1
           m_Arguments:
@@ -142,8 +142,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingRightUp
           m_Mode: 1
           m_Arguments:
@@ -572,8 +572,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingLeftDown
           m_Mode: 1
           m_Arguments:
@@ -588,8 +588,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingLeftUp
           m_Mode: 1
           m_Arguments:
@@ -1320,8 +1320,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingBackwardDown
           m_Mode: 1
           m_Arguments:
@@ -1336,8 +1336,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingBackwardUp
           m_Mode: 1
           m_Arguments:
@@ -1850,8 +1850,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingForwardDown
           m_Mode: 1
           m_Arguments:
@@ -1866,8 +1866,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ButtonEvent, Assembly-CSharp
+        - m_Target: {fileID: 2620613240481671258}
+          m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
           m_MethodName: MovingForwardUp
           m_Mode: 1
           m_Arguments:
