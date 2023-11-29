@@ -18,6 +18,8 @@ public class PlayerControl : MonoBehaviour
     protected bool isMovingBackward = false; // 후진
     protected bool isMovingLeft = false;     // 왼쪽 회전
     protected bool isMovingRight = false;    // 오른쪽 회전
+
+    float timer = 0.0f;
     Animator animator;
 
     private SceneManager sceneManager;
@@ -30,6 +32,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
         if(isMovingForward || isMovingBackward)
         {
             animator.SetBool("isMoving", true);
@@ -83,10 +86,11 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-         if (other.transform == PlayerManager.playingPlane.gameObject.transform)
+         if (other.transform == PlayerManager.playingPlane.gameObject.transform && timer > 1.5f)
         {
             //게임 오버
-            PlayerManager.coin = 1000;
+            Destroy(this.gameObject);
+            SceneManager.LoadScene(0);
         }
     }
     

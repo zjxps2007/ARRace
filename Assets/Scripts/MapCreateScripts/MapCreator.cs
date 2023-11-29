@@ -58,18 +58,18 @@ public class MapCreator : MonoBehaviour
         {
             for(int z = 0; z < 3; z++)
             {
-                mapArray[x, z] = false;
-                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f, mask))
-                {
-                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down * 10.0f, Color.red);
-                    mapArray[x, z] = true;
-                }
-                else if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f))
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f))
                 {
                     if(hit.transform != PlayerManager.playingPlane)
                     {
                         mapArray[x, z] = true;
                     }
+                }
+                mapArray[x, z] = false;
+                if(Physics.Raycast(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down, out hit, 10.0f, mask))
+                {
+                    Debug.DrawRay(onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f, width * z - width), Vector3.down * 10.0f, Color.red);
+                    mapArray[x, z] = true;
                 }
             }
         }
