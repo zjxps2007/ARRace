@@ -6,7 +6,7 @@ using UnityEngine.XR.ARSubsystems;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static int coin = 50;
+    public static int coin = 10;
 
     [SerializeField] private GameObject canvas;
     

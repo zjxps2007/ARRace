@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb521fe15b6cb94e9d4bf2b08e77dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectSound: {fileID: 0}
+  collectSound: {fileID: 8300000, guid: 5a2e5cbf168fb4855b0d805f41cf3ae0, type: 3}
   collectEffect: {fileID: 8771972552311404799, guid: f7ea64f813be44c45a61d13051687bc3,
     type: 3}
   coinCount: {fileID: 7777094559472654497, guid: ab62e97fa2cae43b78b1a7b47466a5e2,

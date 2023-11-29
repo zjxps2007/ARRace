@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
-    [SerializeField] private GameObject collectEffect;
+    [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject gameClearUI;
 
     /*==========================코인 UI 변수 선언==========================*/
     [SerializeField] private TextMeshProUGUI coin;
@@ -20,6 +21,7 @@ public class PlayerControl : MonoBehaviour
     protected bool isMovingLeft = false; // 왼쪽 회전
     protected bool isMovingRight = false; // 오른쪽 회전
 
+    bool gameIsEnd = false;
     float timer = 0.0f;
     Animator animator;
 
@@ -33,16 +35,17 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.transform.position.y < PlayerManager.playingPlane.transform.position.y && timer < 1.5f)
+        if (Input.touchCount > 0 && gameIsEnd)
         {
-            //게임 오버
-            Destroy(this.gameObject);
-            var camera = Camera.main;
-            GameObject gameOverUI;
-            gameOverUI = Instantiate(collectEffect,
-                new Vector3(this.transform.position.x, this.transform.position.y + 0.7f, this.transform.position.z), Quaternion.identity);
-            gameOverUI.transform.LookAt(camera.transform);
-            //SceneManager.LoadScene(0);
+            SceneManager.LoadScene(0);
+        }
+        if (PlayerManager.coin <= 0)
+        {
+            GameClear();
+        }
+        if (this.transform.position.y < PlayerManager.playingPlane.transform.position.y && timer > 1.5f)
+        {
+            GameOver();
         }
         timer += Time.deltaTime;
         if (isMovingForward || isMovingBackward)
@@ -103,15 +106,40 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.transform == PlayerManager.playingPlane.gameObject.transform && timer > 1.5f)
         {
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
             //게임 오버
-            Destroy(this.gameObject);
             var camera = Camera.main;
-            GameObject gameOverUI;
-            gameOverUI = Instantiate(collectEffect,
+            gameOverUI = Instantiate(gameOverUI,
                 new Vector3(this.transform.position.x, this.transform.position.y + 0.7f, this.transform.position.z), Quaternion.identity);
             gameOverUI.transform.LookAt(camera.transform);
-            //SceneManager.LoadScene(0);
+            gameIsEnd = true;
+            Destroy(this.gameObject);
+    }
+    
+    void GameClear()
+    {
+            var camera = Camera.main;
+            gameClearUI = Instantiate(gameClearUI,
+                new Vector3(this.transform.position.x, this.transform.position.y + 0.2f, this.transform.position.z), Quaternion.identity);
+            gameClearUI.transform.LookAt(camera.transform);
+            gameIsEnd = true;
+            Destroy(this.gameObject);
+    }
+    private bool TryGetTouchPosition(out Vector2 touchPosition)
+    {
+        if (Input.touchCount > 0)
+        {
+            touchPosition = Input.GetTouch(0).position;
+            return true;
         }
+
+        touchPosition = default;
+        return false;
     }
 
     /*===================== 이동 제어 버튼 함수 =====================*/

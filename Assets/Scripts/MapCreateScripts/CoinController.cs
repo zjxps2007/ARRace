@@ -21,11 +21,9 @@ public class CoinController : MonoBehaviour
     // 플레이어가 코인을 먹을때
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("asdf");
         if (other.CompareTag("Player"))
         {
             Collect();
-            Debug.Log("Player");
         }
     }
 
@@ -36,9 +34,7 @@ public class CoinController : MonoBehaviour
         
         /*=====================코인 먹은 후 Effect 생성===========================*/
         Instantiate(collectEffect, transform.position, Quaternion.identity);
-        
+        AudioSource.PlayClipAtPoint(collectSound, transform.position);
         Destroy(gameObject);
-        // if(collectSound)
-        // 	AudioSource.PlayClipAtPoint(collectSound, transform.position);
     }
 }
