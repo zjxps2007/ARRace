@@ -57,10 +57,13 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
+        
         coin.text = $"coin : {PlayerManager.coin}";
         Move();
     }
     
+    
+    /*===================== 이동 함수 =====================*/
     private void Move()
     {
         if (isMovingForward)
@@ -94,6 +97,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
     
+    /*===================== 이동 제어 버튼 함수 =====================*/
     public void MovingForwardUp()
     {
         isMovingForward = false;
