@@ -64,21 +64,21 @@ public class MapCreator : MonoBehaviour
                         onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f,
                             width * z - width), Vector3.down, out hit, 10.0f))
                 {
-                    if (hit.transform != PlayerManager.playingPlane)
+                    if (hit.transform == PlayerManager.playingPlane.transform)
                     {
-                        mapArray[x, z] = true;
+                        mapArray[x, z] = false;
+                        if (Physics.Raycast(
+                                onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f,
+                                    width * z - width), Vector3.down, out hit, 10.0f, mask))
+                        {
+                            Debug.DrawRay(
+                                onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f,
+                                    width * z - width), Vector3.down * 10.0f, Color.red);
+                            mapArray[x, z] = true;
+                        }
                     }
-                }
-
-                mapArray[x, z] = false;
-                if (Physics.Raycast(
-                        onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f,
-                            width * z - width), Vector3.down, out hit, 10.0f, mask))
-                {
-                    Debug.DrawRay(
-                        onPlayerMap.transform.position + new Vector3(width * x - width, transform.position.y + 5.0f,
-                            width * z - width), Vector3.down * 10.0f, Color.red);
-                    mapArray[x, z] = true;
+                    else
+                        mapArray[x, z] = true;
                 }
             }
         }

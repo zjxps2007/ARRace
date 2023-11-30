@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static int coin = 10;
 
-    [SerializeField] private GameObject canvas;
+    [SerializeField] private TextMeshProUGUI placeObjectUI;
     
     public GameObject GameObjectToInstantiate; // 터치하여 생성할 오브젝트
 
@@ -50,13 +50,12 @@ public class PlayerManager : MonoBehaviour
 
             if (spawnedObject == null)
             {
-                canvas.SetActive(true);
+                placeObjectUI.text = "";
                 // 생성된 게임 오브젝트가 없으면 변수로 할당한 오브젝트를 생성하고 spawnObject에 담는다
                 spawnedObject = Instantiate(GameObjectToInstantiate, hit.pose.position, hit.pose.rotation);
             }
             else
             {
-                canvas.SetActive(false);
                 // 생성된 오브젝트가 있다면, hitPose 위치 정보에 맞게 위치 좌표와 회전값을 대입하여 이동시킨다.
                 // spawnedObject.transform.position = hitPose.position;
                 // spawnedObject.transform.rotation = hitPose.rotation;

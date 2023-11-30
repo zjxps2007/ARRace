@@ -7,13 +7,14 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameClearUI;
+    [SerializeField] private TextMeshProUGUI placeObjectUI;
 
     /*==========================코인 UI 변수 선언==========================*/
     [SerializeField] private TextMeshProUGUI coin;
 
     /*==========================이동 속도 변수 선언==========================*/
     private float moveSpeed = 1.0f; // 움직임
-    private float rotSpeed = 120.0f; // 회전
+    private float rotSpeed = 180.0f; // 회전
 
     /*==========================이동 관련 변수 선언==========================*/
     protected bool isMovingForward = false; // 전진
@@ -25,8 +26,6 @@ public class PlayerControl : MonoBehaviour
     float timer = 0.0f;
     Animator animator;
 
-    private SceneManager sceneManager;
-
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -35,15 +34,15 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.touchCount > 0 && gameIsEnd)
+        if (TryGetTouchPosition(out Vector2 touchPosition) && gameIsEnd && timer > 0.5f)
         {
             SceneManager.LoadScene(0);
         }
-        if (PlayerManager.coin <= 0)
+        if (PlayerManager.coin <= 0 && !gameIsEnd)
         {
             GameClear();
         }
-        if (this.transform.position.y < PlayerManager.playingPlane.transform.position.y && timer > 1.5f)
+        if (this.transform.position.y < PlayerManager.playingPlane.transform.position.y && timer > 1.5f && !gameIsEnd)
         {
             GameOver();
         }
@@ -104,7 +103,7 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.transform == PlayerManager.playingPlane.gameObject.transform && timer > 1.5f)
+        if (other.transform == PlayerManager.playingPlane.gameObject.transform && timer > 1.5f && !gameIsEnd)
         {
             GameOver();
         }
@@ -117,8 +116,13 @@ public class PlayerControl : MonoBehaviour
             gameOverUI = Instantiate(gameOverUI,
                 new Vector3(this.transform.position.x, this.transform.position.y + 0.7f, this.transform.position.z), Quaternion.identity);
             gameOverUI.transform.LookAt(camera.transform);
+            timer = 0.0f;
             gameIsEnd = true;
-            Destroy(this.gameObject);
+            placeObjectUI.text = "Touch to Restart";
+            //Destroy(this.gameObject);
+            this.gameObject.transform.GetComponent<Rigidbody>().isKinematic = true;
+            this.gameObject.transform.GetComponent<Rigidbody>().useGravity = false;
+            this.gameObject.transform.GetComponent<BoxCollider>().enabled = false;
     }
     
     void GameClear()
@@ -127,20 +131,15 @@ public class PlayerControl : MonoBehaviour
             gameClearUI = Instantiate(gameClearUI,
                 new Vector3(this.transform.position.x, this.transform.position.y + 0.2f, this.transform.position.z), Quaternion.identity);
             gameClearUI.transform.LookAt(camera.transform);
+            timer = 0.0f;
             gameIsEnd = true;
-            Destroy(this.gameObject);
+            placeObjectUI.text = "Touch to Restart";
+            //Destroy(this.gameObject);
+            this.gameObject.transform.GetComponent<Rigidbody>().isKinematic = true;
+            this.gameObject.transform.GetComponent<Rigidbody>().useGravity = false;
+            this.gameObject.transform.GetComponent<BoxCollider>().enabled = false;
     }
-    private bool TryGetTouchPosition(out Vector2 touchPosition)
-    {
-        if (Input.touchCount > 0)
-        {
-            touchPosition = Input.GetTouch(0).position;
-            return true;
-        }
-
-        touchPosition = default;
-        return false;
-    }
+    
 
     /*===================== 이동 제어 버튼 함수 =====================*/
     public void MovingForwardUp()
@@ -181,5 +180,17 @@ public class PlayerControl : MonoBehaviour
     public void MovingRightDown()
     {
         isMovingRight = true;
+    }
+
+    private bool TryGetTouchPosition(out Vector2 touchPosition)
+    {
+        if (Input.touchCount > 0)
+        {
+            touchPosition = Input.GetTouch(0).position;
+            return true;
+        }
+
+        touchPosition = default;
+        return false;
     }
 }
