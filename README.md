@@ -17,4 +17,4 @@
 ![Main](https://github.com/zjxps2007/ARRace/assets/52689857/fa529ec8-6f3b-4548-9d94-271dd5b6033d)
 
 ## 2. 게임 종료 화면
-
+![GameOver](https://github.com/zjxps2007/ARRace/assets/52689857/187be4d9-b678-4c8e-b4e6-d2078e7cd0ad)
