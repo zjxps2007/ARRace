@@ -7,8 +7,14 @@
 
 ---
 
-# ARRace </br>
+# ARRace</br>
 - 개발 툴 : <img src="https://img.shields.io/badge/Unity-000000?style=flat-square&logo=Unity&logoColor=#FFFFFF"/></a><img src="https://img.shields.io/badge/C Sharp-239120?style=flat-square&logo=C Sharp&logoColor=#FFFFFF"/></a></a></br>
+- 유니티 버전 : <img src="https://img.shields.io/badge/2022.3.8f1-000000?style=flat-square&logo=Unity&logoColor=#FFFFFF"/></br>
 
-## 유니티 버전
-<img src="https://img.shields.io/badge/2022.3.8f1-000000?style=flat-square&logo=Unity&logoColor=#FFFFFF"/></a>
+---
+
+## 1. 게임 화면
+![Main](https://github.com/zjxps2007/ARRace/assets/52689857/fa529ec8-6f3b-4548-9d94-271dd5b6033d)
+
+## 2. 게임 종료 화면
+
